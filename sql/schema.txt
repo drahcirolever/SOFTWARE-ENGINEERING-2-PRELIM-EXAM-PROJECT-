@@ -1,0 +1,61 @@
+DROP TABLE Customers;
+DROP TABLE Orders;
+DROP TABLE Shippings;
+
+-- Create Vehicle Table
+CREATE TABLE vehicle (
+   vehicle_id INT PRIMARY KEY,
+   license_plate VARCHAR(20) NOT NULL,
+   make VARCHAR(50),
+   model VARCHAR(50),
+   year INT,
+   purchase_date DATE,
+   mileage FLOAT
+);
+
+-- Create Maintenance Record Table
+CREATE TABLE maintenance_record (
+   maintenance_id INT PRIMARY KEY,
+   vehicle_id INT,
+   maintenance_date DATE NOT NULL,
+   description TEXT,
+   cost DECIMAL(10, 2),
+   mechanic_name VARCHAR(100),
+   next_maintenance_due DATE,
+   FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id)
+);
+
+-- Create Fuel Usage Table
+CREATE TABLE fuel_usage (
+   fuel_id INT PRIMARY KEY,
+   vehicle_id INT,
+   refuel_date DATE NOT NULL,
+   fuel_amount FLOAT,
+   fuel_cost DECIMAL(10, 2),
+   mileage_at_refuel FLOAT,
+   FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id)
+);
+
+-- Create Driver Table
+CREATE TABLE driver (
+   driver_id INT PRIMARY KEY,
+   name VARCHAR(100) NOT NULL,
+   license_number VARCHAR(50),
+   hire_date DATE,
+   contact_info VARCHAR(100)
+);
+
+-- Create Trip Record Table
+CREATE TABLE trip_record (
+   trip_id INT PRIMARY KEY,
+   vehicle_id INT,
+   driver_id INT,
+   trip_start_time DATETIME NOT NULL,
+   trip_end_time DATETIME NOT NULL,
+   start_location VARCHAR(100),
+   end_location VARCHAR(100),
+   total_distance FLOAT,
+   FOREIGN KEY (vehicle_id) REFERENCES vehicle(vehicle_id),
+   FOREIGN KEY (driver_id) REFERENCES driver(driver_id)
+);
+
